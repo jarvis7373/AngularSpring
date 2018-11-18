@@ -1,9 +1,12 @@
 package org.pace;
 
+import org.pace.configuration.JpaConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
-@SpringBootApplication
+@Import(JpaConfiguration.class)
+@SpringBootApplication(scanBasePackages={"org.pace"})
 public class AngularSpringApplication {
 
 	public static void main(String[] args) {
