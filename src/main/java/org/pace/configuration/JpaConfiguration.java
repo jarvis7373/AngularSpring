@@ -36,8 +36,10 @@ public class JpaConfiguration {
     @Autowired
     private Environment environment;
  
-    @Value("${db1.datasource.maxPoolSize:10}")
+    @Value("${db1.datasource.maxPoolSize}")
     private int maxPoolSize;
+    
+  
  
     @Bean
     @Primary
@@ -65,7 +67,7 @@ public class JpaConfiguration {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSource());
-        factoryBean.setPackagesToScan(new String[] { "com.pace.model" });
+        factoryBean.setPackagesToScan(new String[] { "org.pace.model" });
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
         factoryBean.setJpaProperties(jpaProperties());
         return factoryBean;

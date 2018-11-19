@@ -8,12 +8,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class BaseController {
 	
+	
+
+	
 	@RequestMapping( value = "/home" , method = RequestMethod.GET)
 	public String home(ModelMap model) {
 		
-		
 		model.addAttribute("title", "Angular");
-		
 		return "home";
 	}
 	
@@ -23,10 +24,6 @@ public class BaseController {
 		return "list";
 	}
 	
-	@RequestMapping( value = "/view" , method = RequestMethod.GET)
-	public String view() {
-		
-		return "view";
-	}
+
 
 }

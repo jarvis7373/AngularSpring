@@ -1,5 +1,7 @@
 package org.pace.service;
 
+import java.util.List;
+
 import org.pace.model.User;
 import org.pace.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +16,18 @@ public class UserServiceImpl implements UserService {
 	    private UserRepository userRepository;
 	 
 	 
-    public User findByName(String name) {
-        return userRepository.findByName(name);
+    public User findById(int id) {
+        return userRepository.findById(id);
+    }
+    
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+    
+    public List<User> findAllUsers(){
+    	
+    	return userRepository.findAll();
+    	
     }
  
 

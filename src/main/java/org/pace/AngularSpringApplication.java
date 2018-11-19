@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;
 
 @Import(JpaConfiguration.class)
-@SpringBootApplication(scanBasePackages={"org.pace"})
+@SpringBootApplication
 public class AngularSpringApplication {
 
 	public static void main(String[] args) {
