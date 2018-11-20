@@ -23,7 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ApiController {
 	
 	 public static final Logger logger = LoggerFactory.getLogger(ApiController.class);
-	
+	 
 	@Autowired
 	UserServicePri userServicePri;
 	

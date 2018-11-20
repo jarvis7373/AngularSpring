@@ -64,7 +64,6 @@ public class JpaConfigSec {
     
     @Bean(name="entityManagerSec")
     public LocalContainerEntityManagerFactoryBean entityManagerFactorySec() throws NamingException {
-    	
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
         factoryBean.setDataSource(dataSourceSec());
         factoryBean.setPackagesToScan(new String[] { "org.pace.model" });
