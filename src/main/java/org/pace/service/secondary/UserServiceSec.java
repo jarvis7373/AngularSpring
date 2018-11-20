@@ -1,11 +1,11 @@
-package org.pace.service;
+package org.pace.service.secondary;
 
 import java.util.List;
 
 import org.pace.model.User;
 
 
-public interface UserService {
+public interface UserServiceSec {
 	
 	 User findById(int id);
 	 

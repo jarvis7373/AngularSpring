@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.pace.configuration.GlobalVariables;
 import org.pace.model.User;
-import org.pace.service.UserService;
+import org.pace.service.primary.UserServicePri;
+import org.pace.service.secondary.UserServiceSec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,19 +25,28 @@ public class ApiController {
 	 public static final Logger logger = LoggerFactory.getLogger(ApiController.class);
 	
 	@Autowired
-	UserService userService;
+	UserServicePri userServicePri;
 	
-	@RequestMapping(value="/userlist" , method = RequestMethod.GET)
+	@Autowired
+	UserServiceSec userServiceSec;
+	
+	@RequestMapping(value="/userlist" , method = RequestMethod.GET )
 	public List<User>  list() {
 		
-		return userService.findAllUsers();
+		return userServicePri.findAllUsers();
 	}
 	
 	@RequestMapping(value="/createuser" ,  method = RequestMethod.POST)
 	public ResponseEntity<?> createUser( @RequestBody User user ,UriComponentsBuilder ucBuilder) {
 		
 		logger.info("Creating User	: {} ",user);
-		userService.saveUser(user);
+		userServicePri.saveUser(user);
+		
+		if(GlobalVariables.cloudFlag) {
+			
+			userServiceSec.saveUser(user);
+		}
+		
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/api/userlist/{username}").buildAndExpand(user.getUsername()).toUri());

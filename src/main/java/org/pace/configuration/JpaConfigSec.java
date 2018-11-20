@@ -8,13 +8,13 @@ import javax.sql.DataSource;
  
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -27,74 +27,74 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import com.zaxxer.hikari.HikariDataSource;
  
 @Configuration
-@EnableJpaRepositories(basePackages = "org.pace.repositories",
-        entityManagerFactoryRef = "entityManagerFactory",
-        transactionManagerRef = "transactionManager")
+@EnableJpaRepositories(basePackages = "org.pace.repositories.secondary",
+        entityManagerFactoryRef = "entityManagerSec",
+        transactionManagerRef = "transactionalManagerSec")
 @EnableTransactionManagement
-public class JpaConfiguration {
+public class JpaConfigSec {
  
     @Autowired
     private Environment environment;
  
-    @Value("${db1.datasource.maxPoolSize}")
+    @Value("${db2.datasource.maxPoolSize}")
     private int maxPoolSize;
     
   
  
     @Bean
-    @Primary
-    @ConfigurationProperties(prefix = "db1.datasource")
-    public DataSourceProperties dataSourceProperties(){
+    @ConfigurationProperties(prefix = "db2.datasource")
+    public DataSourceProperties dataSourcePropertiesSec(){
         return new DataSourceProperties();
     }
  
     @Bean
-    public DataSource dataSource() {
-        DataSourceProperties dataSourceProperties = dataSourceProperties();
+    public DataSource dataSourceSec() {
+        DataSourceProperties dataSourcePropertiesSec = dataSourcePropertiesSec();
             HikariDataSource dataSource = (HikariDataSource) DataSourceBuilder
-                    .create(dataSourceProperties.getClassLoader())
-                    .driverClassName(dataSourceProperties.getDriverClassName())
-                    .url(dataSourceProperties.getUrl())
-                    .username(dataSourceProperties.getUsername())
-                    .password(dataSourceProperties.getPassword())
+                    .create(dataSourcePropertiesSec.getClassLoader())
+                    .driverClassName(dataSourcePropertiesSec.getDriverClassName())
+                    .url(dataSourcePropertiesSec.getUrl())
+                    .username(dataSourcePropertiesSec.getUsername())
+                    .password(dataSourcePropertiesSec.getPassword())
                     .type(HikariDataSource.class)
                     .build();
             dataSource.setMaximumPoolSize(maxPoolSize);
             return dataSource;
     }
     
-    @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws NamingException {
+    @Bean(name="entityManagerSec")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactorySec() throws NamingException {
+    	
         LocalContainerEntityManagerFactoryBean factoryBean = new LocalContainerEntityManagerFactoryBean();
-        factoryBean.setDataSource(dataSource());
+        factoryBean.setDataSource(dataSourceSec());
         factoryBean.setPackagesToScan(new String[] { "org.pace.model" });
-        factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
-        factoryBean.setJpaProperties(jpaProperties());
+        factoryBean.setJpaVendorAdapter(jpaVendorAdapterSec());
+        factoryBean.setJpaProperties(jpaPropertiesSec());
         return factoryBean;
     }
 
     @Bean
-    public JpaVendorAdapter jpaVendorAdapter() {
+    public JpaVendorAdapter jpaVendorAdapterSec() {
         HibernateJpaVendorAdapter hibernateJpaVendorAdapter = new HibernateJpaVendorAdapter();
         return hibernateJpaVendorAdapter;
     }
  
 
-    private Properties jpaProperties() {
+    private Properties jpaPropertiesSec() {
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", environment.getRequiredProperty("db1.datasource.hibernate.dialect"));
-        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("db1.datasource.hibernate.hbm2ddl.method"));
-        properties.put("hibernate.show_sql", environment.getRequiredProperty("db1.datasource.hibernate.show_sql"));
-        properties.put("hibernate.format_sql", environment.getRequiredProperty("db1.datasource.hibernate.format_sql"));
-        if(StringUtils.isNotEmpty(environment.getRequiredProperty("db1.datasource.defaultSchema"))){
-            properties.put("hibernate.default_schema", environment.getRequiredProperty("db1.datasource.defaultSchema"));
+        properties.put("hibernate.dialect", environment.getRequiredProperty("db2.datasource.hibernate.dialect"));
+        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("db2.datasource.hibernate.hbm2ddl.method"));
+        properties.put("hibernate.show_sql", environment.getRequiredProperty("db2.datasource.hibernate.show_sql"));
+        properties.put("hibernate.format_sql", environment.getRequiredProperty("db2.datasource.hibernate.format_sql"));
+        if(StringUtils.isNotEmpty(environment.getRequiredProperty("db2.datasource.defaultSchema"))){
+            properties.put("hibernate.default_schema", environment.getRequiredProperty("db2.datasource.defaultSchema"));
         }
         return properties;
     }
  
-    @Bean
+    @Bean(name="transactionalManagerSec")
     @Autowired
-    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+    public PlatformTransactionManager transactionManagerSec( @Qualifier("entityManagerSec") EntityManagerFactory emf) {
         JpaTransactionManager txManager = new JpaTransactionManager();
         txManager.setEntityManagerFactory(emf);
         return txManager;

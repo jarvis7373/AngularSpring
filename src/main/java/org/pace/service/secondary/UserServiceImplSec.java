@@ -1,32 +1,32 @@
-package org.pace.service;
+package org.pace.service.secondary;
 
 import java.util.List;
 
 import org.pace.model.User;
-import org.pace.repositories.UserRepository;
+import org.pace.repositories.secondary.UserRepoSec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service("userService")
-@Transactional
-public class UserServiceImpl implements UserService {
+@Service("userServiceSec")
+@Transactional("transactionalManagerSec")
+public class UserServiceImplSec implements UserServiceSec {
 	
 	 	@Autowired
-	    private UserRepository userRepository;
+	    private UserRepoSec userRepoSec;
 	 
 	 
     public User findById(int id) {
-        return userRepository.findById(id);
+        return userRepoSec.findById(id);
     }
     
     public void saveUser(User user) {
-        userRepository.save(user);
+    	userRepoSec.save(user);
     }
     
     public List<User> findAllUsers(){
     	
-    	return userRepository.findAll();
+    	return userRepoSec.findAll();
     	
     }
  
