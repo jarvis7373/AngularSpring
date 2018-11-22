@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class BaseController {
 	
 	
-
-	
 	@RequestMapping( value = "/home" , method = RequestMethod.GET)
 	public String home(ModelMap model) {
 		
