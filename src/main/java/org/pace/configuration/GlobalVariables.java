@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GlobalVariables {
 
+	
 		
 		public static Boolean cloudFlag;
 		
