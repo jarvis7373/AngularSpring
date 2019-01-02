@@ -15,6 +15,15 @@
                             </div>
                         </div>
                     </div>
+                    
+                   <div class="row">
+                        <div class="form-group col-md-12">
+                            <label class="col-md-2 control-lable" for="uname">City Id</label>
+                            <div class="col-md-7">
+                                <input type="text" ng-model="ctrl.user.cityid" id="uname" class="username form-control input-sm" placeholder="Enter your name" required />
+                            </div>
+                        </div>
+                    </div>
  
                     <div class="row">
                         <div class="form-actions floatRight">
