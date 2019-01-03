@@ -22,13 +22,12 @@ public class User {
 	@Column(name = "User_Name")
 	private String userName;
 	
-	
 	@Column(name = "City_Id")
-	private int cityId;
-	
+	private String cityId;
+
 
 	@ManyToOne
-	@JoinColumn(name="City_Id")
+	@JoinColumn(name="City_Id", insertable = false, updatable = false)
 	private City city;
 
 	public int getId() {
@@ -42,14 +41,25 @@ public class User {
 	public void setUsername(String userName) {
 		this.userName = userName;
 	}
-	
-	public int getCityId() {
+
+	public String getCityid() {
 		return cityId;
 	}
 
-	public void setCityId(int cityId) {
+	public void setCityid(String cityId) {
 		this.cityId = cityId;
 	}
+	
+	public City getCity() {
+		return city;
+	}
+	
+
+	
+	
+
+
+
 
 
 }

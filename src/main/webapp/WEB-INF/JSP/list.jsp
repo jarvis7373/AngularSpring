@@ -20,7 +20,7 @@
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="uname">City Id</label>
                             <div class="col-md-7">
-                                <input type="text" ng-model="ctrl.user.cityid" id="uname" class="username form-control input-sm" placeholder="Enter your name" required />
+                                <input type="text" ng-model="ctrl.user.cityid" id="city" class="username form-control input-sm" placeholder="Enter city id" required />
                             </div>
                         </div>
                     </div>
@@ -46,12 +46,14 @@
                     <tr>
                         <th>ID</th>
                         <th>NAME</th>
+                         <th>CITY</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr data-ng-repeat="u in ctrl.getAllUsers()">
                         <td>{{u.id}}</td>
                         <td>{{u.username}}</td>
+                        <td>{{u.city.cityName}}</td>
                     </tr>
                     </tbody>
                 </table>      

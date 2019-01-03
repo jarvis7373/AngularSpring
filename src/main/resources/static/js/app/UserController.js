@@ -37,7 +37,9 @@ angular.module('crudApp').controller('UserController',[ 'UserService', '$scope',
 			}
 
 			function getAllUsers(){
+				console.log(UserService.getAllUsers());
 		            return UserService.getAllUsers();
+		            
 		        }
 			
 			function createUser(){

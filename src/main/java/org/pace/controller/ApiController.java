@@ -39,7 +39,7 @@ public class ApiController {
 	@RequestMapping(value="/createuser" ,  method = RequestMethod.POST)
 	public ResponseEntity<?> createUser( @RequestBody User user ,UriComponentsBuilder ucBuilder) {
 		
-		logger.info("Creating User	: {} ",user);
+		logger.info("Creating User	: {} ",user.getUsername());
 		userServicePri.saveUser(user);
 		
 		if(GlobalVariables.cloudFlag) {

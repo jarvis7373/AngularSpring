@@ -22,7 +22,7 @@ public class City {
 	@Column(name = "City_Name")
 	private String cityName;
 	
-	@OneToMany(mappedBy="City_Id")
+	@OneToMany(mappedBy="city")
 	private Collection<User> user;
 
 
