@@ -8,6 +8,27 @@
   		<link href="css/bootstrap.min.css" rel="stylesheet">
   		<link href="css/mdb.min.css" rel="stylesheet">
  		<link href="css/style.css" rel="stylesheet">
+ 		<style type="text/css">
+ 		
+ 		
+ 		.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
+}
+ 		</style>
     </head>
     <body>
     
@@ -16,7 +37,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-    <a class="navbar-brand" href="#">Hidden brand</a>
+    <a class="navbar-brand" href="#">HIDDEN</a>
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
 
    <li class="nav-item dropdown">
@@ -24,33 +45,34 @@
           Dropdown link
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <li><a class="dropdown-item" href="#">Action</a></li>
-          <li><a class="dropdown-item" href="#">Another action</a></li>
+          <li><a class="dropdown-item" >Action</a></li>
+          <li><a class="dropdown-item" >Another action</a></li>
           <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" >Submenu</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Submenu action</a></li>
-              <li><a class="dropdown-item" href="#">Another submenu action</a></li>
-
+            
+              <li><a class="dropdown-item" >Submenu action</a></li>
+              <li><a class="dropdown-item" >Another submenu action</a></li>
 
               <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" >Subsubmenu</a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Subsubmenu action</a></li>
-                  <li><a class="dropdown-item" href="#">Another subsubmenu action</a></li>
+                  <li><a class="dropdown-item" >Subsubmenu action</a></li>
+                  <li><a class="dropdown-item" >Another subsubmenu action</a></li>
                 </ul>
               </li>
               <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" >Second subsubmenu</a>
                 <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Subsubmenu action</a></li>
-                  <li><a class="dropdown-item" href="#">Another subsubmenu action</a></li>
+                  <li><a class="dropdown-item" >Subsubmenu action</a></li>
+                  <li><a class="dropdown-item" >Another subsubmenu action</a></li>
                 </ul>
               </li>
-
-
 
             </ul>
           </li>
         </ul>
       </li>
+      
+      
+      
     </ul>
   </div>
 </nav>
@@ -70,6 +92,24 @@
         <script type="text/javascript" src="js/app/UserService.js"></script>
         <script type="text/javascript" src="js/app/UserController.js"></script>
         <script type="text/javascript" src="js/app/script.js"></script>
+        <script type="text/javascript">
+        
+        $('.dropdown-menu a.dropdown-toggle').on('click', function(e) {
+      	  if (!$(this).next().hasClass('show')) {
+      	    $(this).parents('.dropdown-menu').first().find('.show').removeClass("show");
+      	  }
+      	  var $subMenu = $(this).next(".dropdown-menu");
+      	  $subMenu.toggleClass('show');
+
+
+      	  $(this).parents('li.nav-item.dropdown.show').on('hidden.bs.dropdown', function(e) {
+      	    $('.dropdown-submenu .show').removeClass("show");
+      	  });
+
+
+      	  return false;
+      	});
+        </script>
         
     </body>
 </html>

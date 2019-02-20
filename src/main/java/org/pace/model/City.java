@@ -35,7 +35,7 @@ public class City {
 		return cityName;
 	}
 
-	public void setUsername(String cityName) {
+	public void setCityname(String cityName) {
 		this.cityName = cityName;
 	}
 	

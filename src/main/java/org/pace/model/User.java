@@ -23,7 +23,7 @@ public class User {
 	private String userName;
 	
 	@Column(name = "City_Id")
-	private String cityId;
+	private int cityId;
 
 
 	@ManyToOne
@@ -42,24 +42,16 @@ public class User {
 		this.userName = userName;
 	}
 
-	public String getCityid() {
+	public int getCityId() {
 		return cityId;
 	}
 
-	public void setCityid(String cityId) {
+	public void setCityId(int cityId) {
 		this.cityId = cityId;
 	}
 	
 	public City getCity() {
 		return city;
 	}
-	
-
-	
-	
-
-
-
-
 
 }

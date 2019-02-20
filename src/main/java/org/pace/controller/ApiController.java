@@ -5,8 +5,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.pace.configuration.GlobalVariables;
+import org.pace.model.City;
 import org.pace.model.User;
 import org.pace.service.primary.UserServicePri;
+import org.pace.service.primary.CityServicePri;
 import org.pace.service.secondary.UserServiceSec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -30,16 +32,25 @@ public class ApiController {
 	@Autowired
 	UserServiceSec userServiceSec;
 	
+	@Autowired
+	CityServicePri cityServicePri;
+	
 	@RequestMapping(value="/userlist" , method = RequestMethod.GET )
 	public List<User>  list() {
 		
 		return userServicePri.findAllUsers();
 	}
 	
+	@RequestMapping(value="/citylist" , method = RequestMethod.GET )
+	public List<City>  city() {
+		
+		return cityServicePri.findAllCity();
+	}
+	
 	@RequestMapping(value="/createuser" ,  method = RequestMethod.POST)
 	public ResponseEntity<?> createUser( @RequestBody User user ,UriComponentsBuilder ucBuilder) {
 		
-		logger.info("Creating User	: {} ",user.getUsername());
+		logger.info("Creating User	: {} ",user);
 		userServicePri.saveUser(user);
 		
 		if(GlobalVariables.cloudFlag) {
@@ -49,7 +60,7 @@ public class ApiController {
 		
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/api/userlist/{username}").buildAndExpand(user.getUsername()).toUri());
+	//	headers.setLocation(ucBuilder.path("/api/userlist/{username}").buildAndExpand(user.getUsername()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
 	

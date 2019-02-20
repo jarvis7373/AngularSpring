@@ -21,3 +21,6 @@ body, .form-control{
     width: 80px !important;
 }
 
+.navbar .dropdown-menu a {
+    padding: .15rem .5rem !important;
+}

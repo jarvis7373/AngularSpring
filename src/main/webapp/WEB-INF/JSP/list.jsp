@@ -20,7 +20,7 @@
                         <div class="form-group col-md-12">
                             <label class="col-md-2 control-lable" for="uname">City Id</label>
                             <div class="col-md-7">
-                                <input type="text" ng-model="ctrl.user.cityid" id="city" class="username form-control input-sm" placeholder="Enter city id" required />
+                                <input type="text" ng-model="ctrl.user.cityId" id="city" class="username form-control input-sm" placeholder="Enter city id" required />
                             </div>
                         </div>
                     </div>
@@ -31,6 +31,7 @@
                             <button type="button" ng-click="ctrl.reset()" class="btn btn-warning btn-sm" ng-disabled="myForm.$pristine">Reset Form</button>
                         </div>
                     </div>
+                    
                 </form>
                 
             </div>
