@@ -14,29 +14,20 @@ public class BaseController {
 		
 		model.addAttribute("title", "Angular");
 		return "home";
-	}
+	}				
 	
-	@RequestMapping( value = "/home1" , method = RequestMethod.GET)
-	public String home1(ModelMap model) {
+	@RequestMapping( value = "/category" , method = RequestMethod.GET)
+	public String category(ModelMap model) {
 		
 		model.addAttribute("title", "Angular");
-		return "home-multi";
+		return "category";
 	}
 	
-	@RequestMapping( value = "/home2" , method = RequestMethod.GET)
-	public String home2(ModelMap model) {
+	@RequestMapping( value = "/item" , method = RequestMethod.GET)
+	public String item(ModelMap model) {
 		
 		model.addAttribute("title", "Angular");
-		return "home-multi2";
+		return "item";
 	}
-	
-	
-	@RequestMapping( value = "/list" , method = RequestMethod.GET)
-	public String list() {
-		
-		return "list";
-	}
-	
-
 
 }

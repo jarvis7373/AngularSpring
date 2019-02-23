@@ -1,12 +1,12 @@
 package org.pace.repositories.primary;
 
-import org.pace.model.User;
+import org.pace.model.Item;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepoPri extends JpaRepository <User,Long>{
+public interface ItemRepoPri extends JpaRepository <Item,Long>{
 	
-	User findById(int id);
+	Item findByitemId(int id);	
 
 }

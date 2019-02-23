@@ -1,12 +1,12 @@
 package org.pace.repositories.primary;
 
-import org.pace.model.City;
+import org.pace.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CityRepoPri extends JpaRepository <City,Long>{
+public interface CategoryRepoPri extends JpaRepository <Category,Long>{
 	
-	City findBycityId(int id);
+	Category findBycategoryId(int id);	
 
 }

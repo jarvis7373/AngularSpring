@@ -1,12 +1,12 @@
 package org.pace.repositories.secondary;
 
-import org.pace.model.User;
+import org.pace.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepoSec extends JpaRepository <User,Long>{
+public interface CategoryRepoSec extends JpaRepository <Category,Long>{
 	
-	User findById(int id);
+	Category findBycategoryId(int id);
 
 }

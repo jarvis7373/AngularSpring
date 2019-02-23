@@ -6,7 +6,11 @@ body, #mainWrapper {
 body, .form-control{
 	font-size:12px!important;
 }
-
+.pace-footer{	
+ 	position: fixed;
+    bottom: 0;
+    width: 100%;	
+}
 .floatRight{
 	float:right;
 	margin-right: 18px;
@@ -16,11 +20,28 @@ body, .form-control{
 	color:red;
 }
 
-
 .custom-width {
     width: 80px !important;
 }
 
 .navbar .dropdown-menu a {
     padding: .15rem .5rem !important;
+}
+
+.dropdown-submenu {
+  position: relative;
+}
+
+.dropdown-submenu a::after {
+  transform: rotate(-90deg);
+  position: absolute;
+  right: 6px;
+  top: .8em;
+}
+
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-left: .1rem;
+  margin-right: .1rem;
 }

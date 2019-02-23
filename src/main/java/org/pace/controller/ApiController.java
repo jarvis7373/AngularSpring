@@ -5,11 +5,9 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.pace.configuration.GlobalVariables;
-import org.pace.model.City;
-import org.pace.model.User;
-import org.pace.service.primary.UserServicePri;
-import org.pace.service.primary.CityServicePri;
-import org.pace.service.secondary.UserServiceSec;
+import org.pace.model.*;
+import org.pace.service.primary.*;
+import org.pace.service.secondary.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,45 +22,57 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequestMapping(value="/api")
 public class ApiController {
 	
-	 public static final Logger logger = LoggerFactory.getLogger(ApiController.class);
-	 
+	public static final Logger logger = LoggerFactory.getLogger(ApiController.class);
+	 	
 	@Autowired
-	UserServicePri userServicePri;
+	CategoryServicePri categoryServicePri;
 	
 	@Autowired
-	UserServiceSec userServiceSec;
+	CategoryServiceSec categoryServiceSec;
 	
-	@Autowired
-	CityServicePri cityServicePri;
-	
-	@RequestMapping(value="/userlist" , method = RequestMethod.GET )
-	public List<User>  list() {
+	@RequestMapping(value="/categorylist" , method = RequestMethod.GET )
+	public List<Category>  category() {
 		
-		return userServicePri.findAllUsers();
+		return categoryServicePri.findAllCategory();
 	}
 	
-	@RequestMapping(value="/citylist" , method = RequestMethod.GET )
-	public List<City>  city() {
+	@RequestMapping(value="/createcategory" ,  method = RequestMethod.POST)
+	public ResponseEntity<?> createCategory( @RequestBody Category category ,UriComponentsBuilder ucBuilder) {
+		category.setFlagStatus(0);
+		category.setCreatedUsercode(1);		
+		logger.info("Creating User	: {} ",category);
+		categoryServicePri.saveCategory(category);
 		
-		return cityServicePri.findAllCity();
-	}
-	
-	@RequestMapping(value="/createuser" ,  method = RequestMethod.POST)
-	public ResponseEntity<?> createUser( @RequestBody User user ,UriComponentsBuilder ucBuilder) {
-		
-		logger.info("Creating User	: {} ",user);
-		userServicePri.saveUser(user);
-		
-		if(GlobalVariables.cloudFlag) {
+		if(GlobalVariables.cloudFlag) { categoryServiceSec.saveCategory(category);}
 			
-			userServiceSec.saveUser(user);
-		}
-		
-		
 		HttpHeaders headers = new HttpHeaders();
 	//	headers.setLocation(ucBuilder.path("/api/userlist/{username}").buildAndExpand(user.getUsername()).toUri());
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
 	
-
+	@Autowired
+	ItemServicePri itemServicePri;
+	
+	@Autowired
+	ItemServiceSec itemServiceSec;
+	
+	@RequestMapping(value="/itemlist" , method = RequestMethod.GET )
+	public List<Item>  item() {
+		
+		return itemServicePri.findAllItem();
+	}
+	
+	@RequestMapping(value="/createitem" ,  method = RequestMethod.POST)
+	public ResponseEntity<?> createItem( @RequestBody Item item ,UriComponentsBuilder ucBuilder) {
+		item.setFlagStatus(0);
+		item.setCreatedUsercode(1);	
+		logger.info("Creating item	: {} ",item);
+		itemServicePri.saveItem(item);
+		
+		if(GlobalVariables.cloudFlag) { itemServiceSec.saveItem(item);	}
+		
+		HttpHeaders headers = new HttpHeaders();
+		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+	}
+		
 }

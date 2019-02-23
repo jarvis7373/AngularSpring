@@ -51,7 +51,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-ng-repeat="u in ctrl.getAllUsers()">
+                    <tr data-ng-repeat="u in ctrl.getAll()">
                         <td>{{u.id}}</td>
                         <td>{{u.username}}</td>
                         <td>{{u.city.cityName}}</td>
