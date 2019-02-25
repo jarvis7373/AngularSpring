@@ -1,4 +1,3 @@
-
 <div class="container-fluid mt-3">
 <div class="card border-success mb-3" >
   <div class="card-header p-0">
@@ -8,7 +7,7 @@
   		<h6 class="font-weight-bold mt-3">ITEM MASTER</h6>
   		</div>
   		<div class="col-md-6 text-right">
-  			<button data-ng-click="ctrl.openModal('ITEM ADD',0)" type="button" class="btn btn-sm btn-primary" >ADD</button>
+  			<button data-ng-click="ctrl.openModal('ITEM ADD',0,0)" type="button" class="btn btn-sm btn-primary" >ADD</button>
 			<button type="button" class="btn btn-sm btn-secondary">EXPORT</button>
   		</div>
   		
@@ -37,8 +36,8 @@
                         <td class="text-center">{{i.itemCode}}</td>  
                         <td class="text-left">{{i.itemName}}</td>  
                         <td class="text-right">{{i.itemPrice}}</td>  
-                        <td class="text-center"><i class="fas fa-pen"></i></td>
-						<td class="text-center"><i class="fas fa-trash-alt"></i></td>                    
+                        <td class="text-center" > <button data-ng-click="ctrl.openModal('ITEM EDIT',1,i.itemId)" type="button" class="btn btn-sm btn-warning p-1 m-0"><i class="fas fa-pen"></i></button> </td>
+                        <td class="text-center" >  <button type="button" class="btn btn-sm btn-danger p-1 m-0"><i class="fas fa-trash-alt"></i></button></td>                
                     </tr>
                     </tbody>
                 </table>      
@@ -62,7 +61,7 @@
       <form  data-ng-submit="ctrl.submit()" name="dataForm" id="dataForm"  class="form-horizontal">
       
 	      <div class="modal-header green lighten-1 p-2">
-	        <h5 class="modal-title w-100 font-weight-bold" id="myModalLabel">ITEM ADD </h5>
+	        <h5 class="modal-title w-100 font-weight-bold" id="myModalLabel" data-ng-bind="ctrlData.modalTitle"></h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>

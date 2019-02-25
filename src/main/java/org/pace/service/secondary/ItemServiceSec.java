@@ -10,5 +10,7 @@ public interface ItemServiceSec {
 	 
 	 void saveItem(Item item);
 	 
+	 void updateItem(Item item);
+	 
 	 List<Item> findAllItem();
 }

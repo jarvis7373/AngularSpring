@@ -15,20 +15,19 @@ public class CategoryServiceImplSec implements CategoryServiceSec {
 	 	@Autowired
 	 	private CategoryRepoSec categoryRepoSec;
 	 
-	 
     public Category findBycategoryId(int id) {
         return categoryRepoSec.findBycategoryId(id);
     }
        
-    
     public List<Category> findAllCategory(){
-    	
     	return categoryRepoSec.findAll();
-    	
     }	
     
     public void saveCategory(Category category) {
     	categoryRepoSec.save(category);
-		
 	}
+    
+	public void updateCategory(Category category) {		
+		saveCategory(category);
+	}	
 }

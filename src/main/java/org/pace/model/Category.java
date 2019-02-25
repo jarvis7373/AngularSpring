@@ -9,7 +9,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "PD_CATEGORY")
@@ -26,8 +28,8 @@ public class Category {
 	@Column(name = "C_FLAG_STATUS")
 	private int flagStatus;
 	
-	@Column(name = "C_SEND_FLAG", nullable = false, columnDefinition = "int default 0")
-	private int sendFlag;
+	@Column(name = "C_SEND_FLAG", nullable=false, columnDefinition = "int default 0")	
+	private Integer sendFlag;
 	
 	@Column(name = "C_CREATED_UC", updatable = false)
 	private int createdUsercode;
@@ -39,8 +41,8 @@ public class Category {
 	@Column(name = "C_MODIFIED_UC", insertable = false)
 	private int modifiedUsercode;
 	
-	@Column(name = "C_MODIFIED_DT", insertable = false, columnDefinition="DATETIME")
-	@CreationTimestamp
+	@Column(name = "C_MODIFIED_DT", insertable=false, columnDefinition="DATETIME")
+	@UpdateTimestamp
 	private LocalDateTime modifieddDateTime;			
 
 	@OneToMany(mappedBy="category")
@@ -53,7 +55,7 @@ public class Category {
 		return categoryName;
 	}
 
-	public void setCategoryname(String categoryName) {
+	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
 	
@@ -78,10 +80,13 @@ public class Category {
 	public int getSendFlag() {
 		return sendFlag;
 	}
+	public void setSendFlag(int sendFlag) {
+		this.sendFlag = sendFlag;
+	}
 	public LocalDateTime getCreatedDateTime() {
 		return createdDateTime;
 	}
 	public LocalDateTime getModifieddDateTime() {
 		return modifieddDateTime;
-	}
+	}	
 }

@@ -19,17 +19,17 @@ public class CategoryServiceImplPri implements CategoryServicePri {
     public Category findBycategoryId(int id) {
         return categoryRepoPri.findBycategoryId(id);
     }
-       
     
     public List<Category> findAllCategory(){
-    	
     	return categoryRepoPri.findAll();
-    	
     }
 
 	public void saveCategory(Category category) {
 		categoryRepoPri.save(category);
-		
+	}	
+	
+	public void updateCategory(Category category) {
+		saveCategory(category);
 	}	
 
 }

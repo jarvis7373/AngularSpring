@@ -10,5 +10,7 @@ public interface CategoryServicePri {
 	 
 	 void saveCategory(Category category);
 	 
+	 void updateCategory(Category category);
+	 
 	 List<Category> findAllCategory();
 }

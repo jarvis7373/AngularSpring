@@ -36,13 +36,19 @@ app.controller('categoryController',[ 'Service', '$scope', function(Service, sco
 	self.submit = submit;
 	self.getAll = getAll;
 	self.create = create;
+	self.update = update;
 	self.reset = reset;
 	self.openModal=openModal;
 	self.closeModal=closeModal;
 
-	function submit(){		
-		console.log('Submitting Saving New Category', self.data);
-		create(self.data);		
+	function submit(){	
+		if(scope.ctrlData.modalState==0){
+			console.log('Submitting Saving New Category', self.data);
+			create(self.data);	
+		}else if(scope.ctrlData.modalState==1){
+			console.log('Submitting Upadte Category', self.data);
+			update(self.data);	
+		}		
 	}
 	function create(data){		
 		Service.postService('createcategory',data,'categorylist').then(
@@ -58,6 +64,20 @@ app.controller('categoryController',[ 'Service', '$scope', function(Service, sco
 			}
 		)		
 	}
+	function update(data){		
+		Service.putService('updatecategory/'+data.categoryId,data,'categorylist').then(
+			function(response){
+				console.log('Category Updated successfully');
+				getAll('categorylist');						
+				self.data={};
+				scope.dataForm.$setPristine();
+				self.closeModal();
+			},
+			function (errResponse){
+				console.log('Error while updating category');
+			}
+		)		
+	}
 	function getAll(locvar){
 		console.log(Service.getAll(locvar));
         return Service.getAll(locvar);
@@ -66,11 +86,22 @@ app.controller('categoryController',[ 'Service', '$scope', function(Service, sco
 		self.data = {};
 		scope.dataForm.$setPristine();		
 	}
-    function openModal(title,state){ 
-    	scope.ctrlData.modalTitle=title; 
-    	scope.ctrlData.modalState=state;
-    	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false}); 
+    function openModal(title,state,id){ 
+    	if(state==0){
+    		scope.ctrlData.modalTitle=title; 
+        	scope.ctrlData.modalState=state;
+        	self.data={};
+        	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false});         	
+    	}else if(state==1){
+    		let temp='singlecategory/'+id;
+    	    Service.loadAll(temp).then(function(){
+    	    	self.data=getAll(temp);
+        		scope.ctrlData.modalTitle=title; 
+            	scope.ctrlData.modalState=state;
+            	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false}); 
+    	    });
     	}
+    }
     function closeModal(){   $('#modal').modal('hide'); }
    
 	
@@ -82,14 +113,20 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
 	self.submit = submit;
 	self.getAll = getAll;
 	self.create = create;
+	self.update = update;
 	self.reset = reset;
 	self.openModal=openModal;
 	self.closeModal=closeModal;
 	
 	
-	function submit(){		
-		console.log('Submitting Saving New Item', self.data);
-		create(self.data);		
+	function submit(){	
+		if(scope.ctrlData.modalState==0){
+			console.log('Submitting Saving New Item', self.data);
+			create(self.data);	
+		}else if(scope.ctrlData.modalState==1){
+			console.log('Submitting Update Item', self.data);
+			update(self.data);	
+		}		
 	}
 	function create(data){		
 		Service.postService('createitem',data,'itemlist').then(
@@ -105,6 +142,20 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
 			}					
 		)		
 	}
+	function update(data){		
+		Service.putService('updateitem/'+data.itemId,data,'itemlist').then(
+			function(response){
+				console.log('Item Updated successfully');
+				getAll('itemlist');						
+				self.data={};
+				scope.dataForm.$setPristine();
+				self.closeModal();
+			},
+			function (errResponse){
+				console.log('Error while updating item');
+			}
+		)		
+	}
 	function getAll(locvar){					 
 		console.log(Service.getAll(locvar));
         return Service.getAll(locvar);
@@ -113,7 +164,22 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
 		self.data = {};
 		scope.dataForm.$setPristine();
 	}
-    function openModal(){   $('#modal').modal({ show	: true, backdrop: 'static', keyboard: false}); }
+	function openModal(title,state,id){ 
+    	if(state==0){
+    		scope.ctrlData.modalTitle=title; 
+        	scope.ctrlData.modalState=state;
+        	self.data={};
+        	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false});         	
+    	}else if(state==1){
+    		let temp='singleitem/'+id;
+    	    Service.loadAll(temp).then(function(){
+    	    	self.data=getAll(temp);
+        		scope.ctrlData.modalTitle=title; 
+            	scope.ctrlData.modalState=state;
+            	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false}); 
+    	    });
+    	}
+    }
     function closeModal(){   $('#modal').modal('hide'); }
    
 }]);

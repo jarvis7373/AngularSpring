@@ -11,5 +11,7 @@ public interface CategoryServiceSec {
 	 
 	 void saveCategory(Category category);
 	 
+	 void updateCategory(Category category);
+	 
 	 List<Category> findAllCategory();
 }

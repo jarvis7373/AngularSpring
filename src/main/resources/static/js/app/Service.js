@@ -7,8 +7,8 @@ app.factory('Service',
             var factory = {
                 loadAll: loadAll,
                 getAll: getAll,
-                postService: postService
-               
+                postService: postService,
+                putService: putService              
             };
 
             return factory;
@@ -22,7 +22,7 @@ app.factory('Service',
                 $http.get(apiUrl)
                     .then(
                         function (response) {
-                            console.log('Fetched successfully all'+url);
+                            console.log('Fetched successfully all '+url);
                             $localStorage[url] = response.data;
                             deferred.resolve(response);
                         },
@@ -49,8 +49,7 @@ app.factory('Service',
             	
             	var deferred=$q.defer();
             	$http.post(apiUrl,data)
-            		.then(
-            				function (response){
+            		.then(function (response){
             					loadAll(rurl);
             					deferred.resolve(response.data);
             				},
@@ -58,10 +57,28 @@ app.factory('Service',
             					deferred.reject(errResponse);
             				}	
             		);
-            	
             	return deferred.promise;
+            }  
+            
+            function putService(url,data,rurl){
             	
-            }                    
+            	let apiUrl=urls.BASE_API+url;
+            	console.log(apiUrl);
+            	console.log('Put data',data);
+            	
+            	var deferred=$q.defer();
+            	$http.put(apiUrl,data)
+            		.then(function (response){
+            					loadAll(rurl);
+            					deferred.resolve(response.data);
+            				},
+            				function(errResponse){
+            					deferred.reject(errResponse);
+            				}	
+            		);
+            	return deferred.promise;
+            } 
 
         }
     ]);
+

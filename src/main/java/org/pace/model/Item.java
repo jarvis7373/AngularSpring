@@ -10,7 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "PD_ITEM_MASTER")
@@ -36,7 +39,8 @@ public class Item {
 	@Column(name = "IM_FLAG_STATUS")
 	private int flagStatus;
 	
-	@Column(name = "IM_SEND_FLAG", nullable = false, columnDefinition = "int default 0")
+	@Column(name = "IM_SEND_FLAG")
+	@ColumnDefault("0")
 	private int sendFlag;
 	
 	@Column(name = "IM_CREATED_UC", updatable = false)
@@ -46,11 +50,11 @@ public class Item {
 	@CreationTimestamp
 	private LocalDateTime createdDateTime;
 	
-	@Column(name = "IM_MODIFIED_UC", insertable = false)
+	@Column(name = "IM_MODIFIED_UC", insertable=false)
 	private int modifiedUsercode;
 	
-	@Column(name = "IM_MODIFIED_DT", insertable = false, columnDefinition="DATETIME")
-	@CreationTimestamp
+	@Column(name = "IM_MODIFIED_DT", insertable=false, columnDefinition="DATETIME")
+	@UpdateTimestamp
 	private LocalDateTime modifieddDateTime;
 	
 	@ManyToOne
@@ -105,6 +109,9 @@ public class Item {
 	}
 	public int getSendFlag() {
 		return sendFlag;
+	}	
+	public void setSendFlag(int sendFlag) {
+		this.sendFlag = sendFlag;
 	}
 	public LocalDateTime getCreatedDateTime() {
 		return createdDateTime;

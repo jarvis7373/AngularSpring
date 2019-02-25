@@ -10,7 +10,7 @@
  		<link href="css/style.css" rel="stylesheet">
 </head>
 <body ng-cloak data-ng-controller="homeController as ctrl" >
-    
+  
 <nav class="navbar navbar-expand-lg navbar-light green darken-2">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -54,7 +54,7 @@
            id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <li  data-ng-repeat="ml in m.menuList" ><a data-ng-bind="ml.name" ui-sref="{{ml.state}}" class="dropdown-item"></a></li>
+          <li data-ng-repeat="ml in m.menuList" ><a data-ng-bind="ml.name" ui-sref="{{ml.state}}" class="dropdown-item"></a></li>
         </ul>                
       </li>
       
@@ -65,7 +65,7 @@
 <div ui-view></div>
   		
 <footer class="page-footer font-small blue">
-		  <div class="footer-copyright text-center py-1 green darken-2 pace-footer">© 2019 Copyright:
+		  <div class="footer-copyright text-center py-1 green darken-2 page-footer">© 2019 Copyright:
 		    <a href="#"> Paceautomation.com</a>
 		  </div>
 </footer>  	

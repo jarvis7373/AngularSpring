@@ -12,24 +12,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional("transactionalManagerPri")
 public class ItemServiceImplPri implements ItemServicePri {
 	
-	 	@Autowired
-	 	private ItemRepoPri itemRepoPri;
-	 
-	 
+	@Autowired
+	private ItemRepoPri itemRepoPri;
+	 	 
     public Item findByitemId(int id) {
         return itemRepoPri.findByitemId(id);
     }
-       
-    
-    public List<Item> findAllItem(){
-    	
-    	return itemRepoPri.findAll();
-    	
+           
+    public List<Item> findAllItem(){    	
+    	return itemRepoPri.findAll();    	
     }
 
 	public void saveItem(Item item) {
-		itemRepoPri.save(item);
-		
+		itemRepoPri.save(item);		
 	}	
-
+	
+	public void updateItem(Item item) {
+		saveItem(item);
+	}
 }

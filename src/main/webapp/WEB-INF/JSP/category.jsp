@@ -7,7 +7,7 @@
   		<h6 class="font-weight-bold mt-3">CATEGORY MASTER</h6>
   		</div>
   		<div class="col-md-6 text-right">
-  			<button data-ng-click="ctrl.openModal('CATEGORY ADD',0)" type="button" class="btn btn-sm btn-primary" >ADD</button>
+  			<button data-ng-click="ctrl.openModal('CATEGORY ADD',0,0)" type="button" class="btn btn-sm btn-primary" >ADD</button>
 			<button type="button" class="btn btn-sm btn-secondary">EXPORT</button>
   		</div>
   		
@@ -32,8 +32,8 @@
                     <tr data-ng-repeat="u in ctrl.getAll('categorylist')">
                         <td class="text-left">{{u.categoryId}}</td>
                         <td class="text-left">{{u.categoryName}}</td>  
-                        <td class="text-center"><i class="fas fa-pen"></i></td>
-						<td class="text-center"><i class="fas fa-trash-alt"></i></td>                     
+                        <td class="text-center" > <button data-ng-click="ctrl.openModal('CATEGORY EDIT',1,u.categoryId)" type="button" class="btn btn-sm btn-warning p-1 m-0"><i class="fas fa-pen"></i></button> </td>
+                        <td class="text-center" >  <button type="button" class="btn btn-sm btn-danger p-1 m-0"><i class="fas fa-trash-alt"></i></button></td>    
                     </tr>
                     </tbody>
                 </table>      
@@ -68,7 +68,7 @@
                  <div class="col-md-3"></div>
                     <div class="col-md-6">                       
                       <label for="categoryname">Category Name</label>
-						<input type="text" ng-model="ctrl.data.categoryname" id="categoryname" class="form-control">
+						<input type="text" ng-model="ctrl.data.categoryName" id="categoryName" class="form-control">
                     </div> 
                     <div class="col-md-3"></div>                   
                  </div>                                                     
