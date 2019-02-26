@@ -49,7 +49,7 @@
         </ul>                
       </li>   -->
       
-      <li class="nav-item dropdown" data-ng-repeat="m in ctrlData.menuData" >
+      <li class="nav-item dropdown" data-ng-repeat="m in globData.menuData" >
         <a data-ng-bind="m.name" class="nav-link dropdown-toggle text-white font-weight-bold" 
            id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         </a>

@@ -1,40 +1,43 @@
 'use strict';
 
-app.controller('homeController',[ 'Service', '$scope', function(Service, scope) {
+app.controller('homeController',[ 'Service','GlobData','$scope', function(Service,GlobData,scope) {
 	
 	var self = this;
-	scope.ctrlData={};
+	scope.globData=GlobData;
 	
 	var menuData=[ 
-					{ name:"Masters",
-					 menuList:[ 
-							{ name:"Category" , state:"category" ,  subMenu :[1] },
-							{ name:"Item" , state:"item" , subMenu :[1] } 
+					{
+						name:"Masters",
+						menuList:[ 
+							{ name:"Category" , state:"category" ,  subMenu :[] },
+							{ name:"Item" , state:"item" , subMenu :[] } 
 						  ] 
-					 			
 					}, 
-					{ name:"Inventry" , 
+					{ 
+						name:"Inventry" , 
 						menuList:[ 
  							{ name:"Po" , state:"po" , subMenu :[] },
  							{ name:"Grn" , state:"grn" , subMenu :[] } 
  						  ]
-								
 					} 
-					
 				  ];
 	
-	scope.ctrlData.menuData=menuData;
 	
-	   
+	scope.globData.menuData=menuData;
+	
+	
 }]);
 
-app.controller('categoryController',[ 'Service', '$scope', function(Service, scope) {
+app.controller('categoryController',[ 'Service','GlobData','$scope', function( Service, GlobData, scope ) {
 	var self = this;
-	scope.ctrlData={};
+	var ctrlData={};
+	
+	scope.globData=GlobData;
+	
 	
 	self.data = {};
 	self.submit = submit;
-	self.getAll = getAll;
+	self.getLocData = getLocData;
 	self.create = create;
 	self.update = update;
 	self.reset = reset;
@@ -54,7 +57,7 @@ app.controller('categoryController',[ 'Service', '$scope', function(Service, sco
 		Service.postService('createcategory',data,'categorylist').then(
 			function(response){
 				console.log('Category created successfully');
-				getAll('categorylist');						
+				getLocData('categorylist');						
 				self.data={};
 				scope.dataForm.$setPristine();
 				self.closeModal();
@@ -68,7 +71,7 @@ app.controller('categoryController',[ 'Service', '$scope', function(Service, sco
 		Service.putService('updatecategory/'+data.categoryId,data,'categorylist').then(
 			function(response){
 				console.log('Category Updated successfully');
-				getAll('categorylist');						
+				getLocData('categorylist');						
 				self.data={};
 				scope.dataForm.$setPristine();
 				self.closeModal();
@@ -78,31 +81,18 @@ app.controller('categoryController',[ 'Service', '$scope', function(Service, sco
 			}
 		)		
 	}
-	function getAll(locvar){
-		console.log(Service.getAll(locvar));
-        return Service.getAll(locvar);
+	function getLocData(locvar){
+		console.log(Service.getLocData(locvar));
+        return Service.getLocData(locvar);
 	}		
 	function reset() {
 		self.data = {};
 		scope.dataForm.$setPristine();		
 	}
     function openModal(title,state,id){ 
-    	if(state==0){
-    		scope.ctrlData.modalTitle=title; 
-        	scope.ctrlData.modalState=state;
-        	self.data={};
-        	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false});         	
-    	}else if(state==1){
-    		let temp='singlecategory/'+id;
-    	    Service.loadAll(temp).then(function(){
-    	    	self.data=getAll(temp);
-        		scope.ctrlData.modalTitle=title; 
-            	scope.ctrlData.modalState=state;
-            	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false}); 
-    	    });
-    	}
+    	 Service.openModal('modal',title,state,'singleCategory',id); 
     }
-    function closeModal(){   $('#modal').modal('hide'); }
+    function closeModal(modalName){   Service.closeModal(modalName); }
    
 	
 }]);
@@ -111,7 +101,7 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
 	var self = this;
 	self.data = {};
 	self.submit = submit;
-	self.getAll = getAll;
+	self.getLocData = getLocData;
 	self.create = create;
 	self.update = update;
 	self.reset = reset;
@@ -132,7 +122,7 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
 		Service.postService('createitem',data,'itemlist').then(
 			function(response){
 				console.log('Item created successfully');
-				getAll('itemlist');						
+				getLocData('itemlist');						
 				self.data={};
 				scope.dataForm.$setPristine();
 				self.closeModal();
@@ -146,7 +136,7 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
 		Service.putService('updateitem/'+data.itemId,data,'itemlist').then(
 			function(response){
 				console.log('Item Updated successfully');
-				getAll('itemlist');						
+				getLocData('itemlist');						
 				self.data={};
 				scope.dataForm.$setPristine();
 				self.closeModal();
@@ -156,9 +146,9 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
 			}
 		)		
 	}
-	function getAll(locvar){					 
-		console.log(Service.getAll(locvar));
-        return Service.getAll(locvar);
+	function getLocData(locvar){					 
+		console.log(Service.getLocData(locvar));
+        return Service.getLocData(locvar);
 	}		
 	function reset() {
 		self.data = {};
@@ -169,11 +159,12 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
     		scope.ctrlData.modalTitle=title; 
         	scope.ctrlData.modalState=state;
         	self.data={};
+        	self.data.categoryId=getLocData('categorylist')[0].categoryId;
         	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false});         	
     	}else if(state==1){
     		let temp='singleitem/'+id;
-    	    Service.loadAll(temp).then(function(){
-    	    	self.data=getAll(temp);
+    	    Service.loadSerData(temp).then(function(){
+    	    	self.data=getLocData(temp);
         		scope.ctrlData.modalTitle=title; 
             	scope.ctrlData.modalState=state;
             	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false}); 

@@ -31,7 +31,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr data-ng-repeat="i in ctrl.getAll('itemlist')">
+                    <tr data-ng-repeat="i in ctrl.getLocData('itemlist')">
                         <td class="text-left">{{i.category.categoryName}}</td>
                         <td class="text-center">{{i.itemCode}}</td>  
                         <td class="text-left">{{i.itemName}}</td>  
@@ -73,10 +73,9 @@
 	                 <div class="row">
 	                    <div class="col-md-6">
 	                        <label for="categoryId">Category Name</label>
-	                       <select ng-model="ctrl.data.categoryId" id="categoryId" class="browser-default custom-select">
-							  <option data-ng-repeat="c in ctrl.getAll('categorylist')" ng-value="{{c.categoryId}}" 
-							  ng-selected="{{$index == 0}}">{{c.categoryName}}</option>
-							</select>
+	                        <select ng-model="ctrl.data.categoryId"  class="browser-default custom-select" 
+	                        ng-options="obj.categoryId as obj.categoryName for obj in  ctrl.getLocData('categorylist')">
+	                        </select> 
 	                    </div>
 	                    <div class="col-md-6">
 	                      <label for="itemCode">Item Code</label>
@@ -95,11 +94,13 @@
 	            </div>
 	        </div>   
 	      </div>
-	      <div class="modal-footer">
-	        <button ng-disabled="dataForm.$invalid || dataForm.$pristine" 
-	        type="submit" class="btn btn-primary btn-sm" >SUBMIT</button>
-	        <button ng-disabled="dataForm.$pristine" ng-click="ctrl.reset()" 
-	        type="button" class="btn btn-warning btn-sm">RESET</button>
+	      
+	      <div class="modal-footer" ng-if="ctrlData.modalState==0">
+	        <button ng-disabled="dataForm.$invalid || dataForm.$pristine" type="submit" class="btn btn-primary btn-sm" >SUBMIT</button>
+	        <button ng-disabled="dataForm.$pristine" ng-click="ctrl.reset()" type="button" class="btn btn-warning btn-sm">RESET</button>
+	      </div>
+	      <div class="modal-footer" ng-if="ctrlData.modalState==1">
+	        <button ng-disabled="dataForm.$invalid || dataForm.$pristine" type="submit" class="btn btn-primary btn-sm" >UPDATE</button>
 	      </div>
         
         </form>

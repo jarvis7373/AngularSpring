@@ -1,19 +1,26 @@
 'use strict';
 
-app.factory('Service',
-    ['$localStorage', '$http', '$q', 'urls',
-        function ($localStorage, $http, $q, urls) {
+app.factory('GlobData', function() {  
+	return {};
+});
+
+app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData',
+        function ($localStorage, $http, $q, urls, GlobData) {
 
             var factory = {
-                loadAll: loadAll,
-                getAll: getAll,
+                loadSerData: loadSerData,
+                setLocData : setLocData,
+                getLocData : getLocData,
                 postService: postService,
-                putService: putService              
+                putService : putService,   
+                openModal  : openModal,
+                closeModal : closeModal
+                
             };
-
+            
             return factory;
-
-            function loadAll(url) {
+         
+            function loadSerData(url) {
             	
             	let apiUrl=urls.BASE_API+url;
             	console.log(apiUrl);
@@ -35,8 +42,15 @@ app.factory('Service',
                     );
                 return deferred.promise;
             }
+            
+            function setLocData(locvar,locdata){
+            	
+            	 console.log('Setting local data');
+            	 console.log(locdata);
+                 $localStorage[locvar]=locdata;
+            }
 
-            function getAll(locvar){
+            function getLocData(locvar){
             	
                 return $localStorage[locvar];
             }
@@ -50,7 +64,7 @@ app.factory('Service',
             	var deferred=$q.defer();
             	$http.post(apiUrl,data)
             		.then(function (response){
-            					loadAll(rurl);
+            					loadSerData(rurl);
             					deferred.resolve(response.data);
             				},
             				function(errResponse){
@@ -69,7 +83,7 @@ app.factory('Service',
             	var deferred=$q.defer();
             	$http.put(apiUrl,data)
             		.then(function (response){
-            					loadAll(rurl);
+            					loadSerData(rurl);
             					deferred.resolve(response.data);
             				},
             				function(errResponse){
@@ -77,8 +91,30 @@ app.factory('Service',
             				}	
             		);
             	return deferred.promise;
-            } 
-
+            }             
+            
         }
+    
+	    function openModal(modalName,title,state,url,id){
+	    	
+	    	if(state==0){
+	    		GlobData.modalTitle=title; 
+	        	GlobData.modalState=state;
+	        	self.data={};
+	        	$('#'+modalName).modal({ show	: true, backdrop: 'static', keyboard: false});         	
+	    	}else if(state==1){
+	    		let temp=url'/'+id;
+	    	    Service.loadSerData(temp).then(function(){
+	    	    	self.data=getLocData(temp);
+	        		GlobData.modalTitle=title; 
+	            	GlobData.modalState=state;
+	            	$('#'+modalName).modal({ show	: true, backdrop: 'static', keyboard: false}); 
+	    	    });
+	    	}
+	    }
+	    
+	    function closeModal(modalName){   $('#'+modalName).modal('hide'); }
+    
+    
     ]);
 

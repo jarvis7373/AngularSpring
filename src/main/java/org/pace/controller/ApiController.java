@@ -121,6 +121,7 @@ public class ApiController {
 	          return new ResponseEntity(new CustomErrorType("Unable to update. Item with id " + id + " not found."),HttpStatus.NOT_FOUND);
 	     }
 	 
+	     currentItem.setCategoryId(item.getCategoryId());
 	     currentItem.setItemCode(item.getItemCode());
 	     currentItem.setItemName(item.getItemName());
 	     currentItem.setItemPrice(item.getItemPrice());
