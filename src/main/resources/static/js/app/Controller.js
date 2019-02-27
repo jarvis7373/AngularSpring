@@ -4,6 +4,7 @@ app.controller('homeController',[ 'Service','GlobData','$scope', function(Servic
 	
 	var self = this;
 	scope.globData=GlobData;
+	scope.ctrlData={};
 	
 	var menuData=[ 
 					{
@@ -29,10 +30,11 @@ app.controller('homeController',[ 'Service','GlobData','$scope', function(Servic
 }]);
 
 app.controller('categoryController',[ 'Service','GlobData','$scope', function( Service, GlobData, scope ) {
-	var self = this;
-	var ctrlData={};
 	
+	var self = this;
+	var ctrlVar="category";
 	scope.globData=GlobData;
+	scope.ctrlData={};
 	
 	
 	self.data = {};
@@ -40,65 +42,103 @@ app.controller('categoryController',[ 'Service','GlobData','$scope', function( S
 	self.getLocData = getLocData;
 	self.create = create;
 	self.update = update;
+	self.remove = remove;
 	self.reset = reset;
 	self.openModal=openModal;
 	self.closeModal=closeModal;
-
+	self.confirmModal=confirmModal;
+	
+	function log(type,data,data1){
+		Service.logService(type,data,data1);
+	}
+	function getLocData(locvar){
+		log(0,locvar,Service.getLocData(locvar));
+        return Service.getLocData(locvar);
+	}	
 	function submit(){	
 		if(scope.ctrlData.modalState==0){
-			console.log('Submitting Saving New Category', self.data);
+			log(0,'Submitting Saving New '+ctrlVar, self.data);
 			create(self.data);	
 		}else if(scope.ctrlData.modalState==1){
-			console.log('Submitting Upadte Category', self.data);
+			log(0,'Submitting Update '+ctrlVar, self.data);
 			update(self.data);	
 		}		
 	}
 	function create(data){		
-		Service.postService('createcategory',data,'categorylist').then(
+		Service.postService('create'+ctrlVar,data,ctrlVar+'list').then(
 			function(response){
-				console.log('Category created successfully');
-				getLocData('categorylist');						
+				log(0,ctrlVar+' created successfully');
+				getLocData(ctrlVar+"list");						
 				self.data={};
 				scope.dataForm.$setPristine();
-				self.closeModal();
+				self.closeModal('modal');
 			},
 			function (errResponse){
-				console.log('Error while creating category');
+				log(1,'Error while creating '+ctrlVar);
 			}
 		)		
 	}
 	function update(data){		
-		Service.putService('updatecategory/'+data.categoryId,data,'categorylist').then(
+		Service.putService('update'+ctrlVar+'/'+data.categoryId,data,ctrlVar+'list').then(
 			function(response){
-				console.log('Category Updated successfully');
-				getLocData('categorylist');						
+				log(0,ctrlVar+' Updated successfully');
+				getLocData(ctrlVar+'list');						
 				self.data={};
 				scope.dataForm.$setPristine();
-				self.closeModal();
+				self.closeModal('modal');
 			},
 			function (errResponse){
-				console.log('Error while updating category');
+				log(1,'Error while updating '+ctrlVar);
 			}
 		)		
 	}
-	function getLocData(locvar){
-		console.log(Service.getLocData(locvar));
-        return Service.getLocData(locvar);
-	}		
+	function remove(id){		
+		Service.removeService('remove'+ctrlVar+'/'+id,ctrlVar+'list').then(
+			function(response){
+				log(0,ctrlVar+' Removed successfully');
+				getLocData(ctrlVar+'list');						
+				self.data={};
+				scope.dataForm.$setPristine();
+				self.closeModal('modalConfirm');
+			},
+			function (errResponse){
+				log(1,'Error while Removing '+ctrlVar);
+			}
+		)		
+	}
 	function reset() {
 		self.data = {};
 		scope.dataForm.$setPristine();		
 	}
-    function openModal(title,state,id){ 
-    	 Service.openModal('modal',title,state,'singleCategory',id); 
-    }
-    function closeModal(modalName){   Service.closeModal(modalName); }
+	function openModal(title,state,id){ 
+	    	if(state==0){
+	    		scope.ctrlData.modalTitle=title; 
+	        	scope.ctrlData.modalState=state;
+	        	self.data={};
+	        	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false});         	
+	    	}else if(state==1){
+	    		let temp='single'+ctrlVar+'/'+id;
+	    	    Service.loadSerData(temp).then(function(){
+	    	    	self.data=getLocData(temp);
+	        		scope.ctrlData.modalTitle=title; 
+	            	scope.ctrlData.modalState=state;
+	            	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false}); 
+	    	    }
+	    	    
+	    	    )
+	    	}
+	    }
+	 function closeModal(name){   $('#'+name).modal('hide'); }
+	 
+	 function confirmModal(id){ scope.ctrlData.removeId=id; $('#modalConfirm').modal({ show	: true, backdrop: 'static', keyboard: false});  }
    
 	
 }]);
 
 app.controller('itemController',[ 'Service', '$scope', function(Service, scope) {
 	var self = this;
+	var ctrlVar="item";
+	
 	self.data = {};
 	self.submit = submit;
 	self.getLocData = getLocData;
@@ -109,47 +149,50 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
 	self.closeModal=closeModal;
 	
 	
+	function log(type,data,data1){
+		Service.logService(type,data,data1);
+	}
+	function getLocData(locvar){
+		log(0,locvar,Service.getLocData(locvar));
+        return Service.getLocData(locvar);
+	}	
 	function submit(){	
 		if(scope.ctrlData.modalState==0){
-			console.log('Submitting Saving New Item', self.data);
+			log(0,'Submitting Saving New '+ctrlVar, self.data);
 			create(self.data);	
 		}else if(scope.ctrlData.modalState==1){
-			console.log('Submitting Update Item', self.data);
+			log(0,'Submitting Update '+ctrlVar, self.data);
 			update(self.data);	
 		}		
 	}
 	function create(data){		
-		Service.postService('createitem',data,'itemlist').then(
+		Service.postService('create'+ctrlVar,data,ctrlVar+'list').then(
 			function(response){
-				console.log('Item created successfully');
-				getLocData('itemlist');						
+				log(0,ctrlVar+' created successfully');
+				getLocData(ctrlVar+"list");						
 				self.data={};
 				scope.dataForm.$setPristine();
-				self.closeModal();
+				self.closeModal('modal');
 			},
 			function (errResponse){
-				console.log('Error while creating item');
-			}					
-		)		
-	}
-	function update(data){		
-		Service.putService('updateitem/'+data.itemId,data,'itemlist').then(
-			function(response){
-				console.log('Item Updated successfully');
-				getLocData('itemlist');						
-				self.data={};
-				scope.dataForm.$setPristine();
-				self.closeModal();
-			},
-			function (errResponse){
-				console.log('Error while updating item');
+				log(1,'Error while creating '+ctrlVar);
 			}
 		)		
 	}
-	function getLocData(locvar){					 
-		console.log(Service.getLocData(locvar));
-        return Service.getLocData(locvar);
-	}		
+	function update(data){		
+		Service.putService('update'+ctrlVar+'/'+data.categoryId,data,ctrlVar+'list').then(
+			function(response){
+				log(0,ctrlVar+' Updated successfully');
+				getLocData(ctrlVar+'list');						
+				self.data={};
+				scope.dataForm.$setPristine();
+				self.closeModal('modal');
+			},
+			function (errResponse){
+				log(1,'Error while updating '+ctrlVar);
+			}
+		)		
+	}
 	function reset() {
 		self.data = {};
 		scope.dataForm.$setPristine();
@@ -159,18 +202,18 @@ app.controller('itemController',[ 'Service', '$scope', function(Service, scope) 
     		scope.ctrlData.modalTitle=title; 
         	scope.ctrlData.modalState=state;
         	self.data={};
-        	self.data.categoryId=getLocData('categorylist')[0].categoryId;
+        	self.data.categoryId=getLocData('categorylist')[0].categoryId; //selected value set
         	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false});         	
     	}else if(state==1){
-    		let temp='singleitem/'+id;
+    		let temp='single'+ctrlVar+'/'+id;
     	    Service.loadSerData(temp).then(function(){
     	    	self.data=getLocData(temp);
-        		scope.ctrlData.modalTitle=title; 
+        		scope.ctrlData.modalTitle=title;  
             	scope.ctrlData.modalState=state;
             	$('#modal').modal({ show	: true, backdrop: 'static', keyboard: false}); 
     	    });
     	}
     }
-    function closeModal(){   $('#modal').modal('hide'); }
+    function closeModal(name){   $('#'+name).modal('hide'); }
    
 }]);

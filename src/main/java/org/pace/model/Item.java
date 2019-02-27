@@ -14,9 +14,11 @@ import javax.persistence.Table;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "PD_ITEM_MASTER")
+@Where(clause = "IM_FLAG_STATUS<'2'")
 public class Item {
 
 	@Id

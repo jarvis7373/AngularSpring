@@ -12,9 +12,11 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "PD_CATEGORY")
+@Where(clause = "C_FLAG_STATUS<'2'")
 public class Category {
 
 	@Id
@@ -29,7 +31,7 @@ public class Category {
 	private int flagStatus;
 	
 	@Column(name = "C_SEND_FLAG", nullable=false, columnDefinition = "int default 0")	
-	private Integer sendFlag;
+	private int sendFlag;
 	
 	@Column(name = "C_CREATED_UC", updatable = false)
 	private int createdUsercode;

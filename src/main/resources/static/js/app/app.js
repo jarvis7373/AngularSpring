@@ -15,7 +15,9 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 		controllerAs:'ctrl',
 		resolve: {
 			users: function ($q, Service) {
-				console.log('Load all category');
+				
+				localStorage.clear();
+				Service.logService(0,'Load all category');
 		        var deferred = $q.defer();
 		        Service.loadSerData('categorylist').then(deferred.resolve, deferred.resolve);
 		        return deferred.promise;
@@ -32,7 +34,8 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 		controllerAs:'ctrl',
 		resolve: {
 			users: function ($q, Service) {
-				console.log('Load all Items');
+				localStorage.clear();
+				Service.logService(0,'Load all Items');
 		        var deferred = $q.defer();
 		        Service.loadSerData('categorylist').then(deferred.resolve, deferred.resolve);
 		        Service.loadSerData('itemlist').then(deferred.resolve, deferred.resolve);

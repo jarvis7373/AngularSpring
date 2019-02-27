@@ -66,15 +66,35 @@ public class ApiController {
 		 Category currentCategory = categoryServicePri.findBycategoryId(id);
 		 
 	     if (currentCategory == null) {
-	          logger.error("Unable to update. User with id {} not found.", id);
-	          return new ResponseEntity(new CustomErrorType("Unable to upate. User with id " + id + " not found."),HttpStatus.NOT_FOUND);
+	          logger.error("Unable to update. category with id {} not found.", id);
+	          return new ResponseEntity(new CustomErrorType("Unable to upate. category with id " + id + " not found."),HttpStatus.NOT_FOUND);
 	     }
 	 
 	     currentCategory.setCategoryName(category.getCategoryName());
 	     currentCategory.setFlagStatus(1);	  	
 	     currentCategory.setSendFlag(0);	  	
 	     currentCategory.setModifiedUsercode(1);
-	     logger.info("update Category	: {} ",currentCategory.getSendFlag());
+	     categoryServicePri.updateCategory(currentCategory);
+	     if(GlobalVariables.cloudFlag) { categoryServiceSec.updateCategory(currentCategory);	}
+	        
+	     return new ResponseEntity<Category>(currentCategory, HttpStatus.OK);
+	}
+	
+	@RequestMapping(value="/removecategory/{id}" , method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteCategory(@PathVariable("id") int id ) {
+		
+		 logger.info("Deleting category with id {}", id);
+		 
+		 Category currentCategory = categoryServicePri.findBycategoryId(id);
+		 
+	     if (currentCategory == null) {
+	          logger.error("Unable to delete. category with id {} not found.", id);
+	          return new ResponseEntity(new CustomErrorType("Unable to upate. category with id " + id + " not found."),HttpStatus.NOT_FOUND);
+	     }
+	 
+	     currentCategory.setFlagStatus(2);	  	
+	     currentCategory.setSendFlag(0);	  	
+	     currentCategory.setModifiedUsercode(1);
 	     categoryServicePri.updateCategory(currentCategory);
 	     if(GlobalVariables.cloudFlag) { categoryServiceSec.updateCategory(currentCategory);	}
 	        
