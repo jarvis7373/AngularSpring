@@ -37,6 +37,18 @@ app.controller('categoryController',[ '$sce','Service','GlobData','$scope', func
 	scope.ctrlData={};
 	
      //alert(angular.element(formContent).html());
+	//$sce.trustAsHtml(angular.element(formContent).html());
+
+    	
+    	scope.ctrlData.modalName='modal';
+    	scope.ctrlData.modalState=0;
+    	scope.ctrlData.modalClass='modal-lg';
+    	scope.ctrlData.modalHeaderClass='green lighten-1 p-2';
+    	scope.ctrlData.modalTitle='CATEGORY ADD';
+    	scope.ctrlData.modalClose=true;
+    	
+    	
+	
 	
 	self.data = {};
 	self.submit = submit;
@@ -49,6 +61,10 @@ app.controller('categoryController',[ '$sce','Service','GlobData','$scope', func
 	self.editModal=editModal;
 	self.closeModal=closeModal;
 	self.confirmModal=confirmModal;
+	
+	scope.getTemplate = function(item) {
+		  return 'test1.html';
+	}
 	
 	function log(type,data,data1){
 		Service.logService(type,data,data1);
@@ -101,7 +117,7 @@ app.controller('categoryController',[ '$sce','Service','GlobData','$scope', func
 				getLocData(ctrlName+'list');						
 				self.data={};
 				scope.dataForm.$setPristine();
-				self.closeModal('modalConfirm');
+				closeModal();
 			},
 			function (errResponse){
 				log(1,'Error while Removing '+ctrlName);
@@ -112,22 +128,15 @@ app.controller('categoryController',[ '$sce','Service','GlobData','$scope', func
 		self.data = {};
 		scope.dataForm.$setPristine();		
 	}
+	
 	function addModal(){
-		
-		scope.globData.modalClass="modal-lg";
-		scope.globData.modalName="modal";
-		scope.globData.modalHeaderClass="green lighten-1 p-2";
-		scope.globData.modalTitle="CATEGORY ADD";
-		scope.globData.modalBody= $sce.trustAsHtml(angular.element(formContent).html());
-		scope.globData.modalClose=true;
-		scope.globData.modalState=0;
-		scope.globData.modalTitle=ctrlName.toUpperCase()+' ADD'; 
-		
+		scope.ctrlData.modalState=0;
 		self.data={};
-		Service.modalService('modal','modal-lg','green lighten-1 p-2',);
+		$('#'+scope.ctrlData.modalName).modal({ show: true, backdrop: 'static', keyboard: false}); 
+		
 	}
 	function editModal(id){
-		
+		scope.ctrlData.modalState=1;
 		let temp='single'+ctrlName+'/'+id;
 	    Service.loadSerData(temp).then(function(){
 	    	self.data=getLocData(temp);

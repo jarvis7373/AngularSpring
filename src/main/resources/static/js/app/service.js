@@ -20,15 +20,17 @@ app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData','$sce'
          
             return factory;
             
-            function modalService(name,mclass,mhclass,mtitle,mbody,mclose){
+            function modalService(name,mstate,mclass,mhclass,mtitle,mbody,mclose){
             	
             	GlobData.modalName=name;
+            	GlobData.modalState=mstate;
             	GlobData.modalClass=mclass;
             	GlobData.modalHeaderClass=mhclass;
             	GlobData.modalTitle=mtitle;
             	GlobData.modalBody= $sce.trustAsHtml(mbody);
             	GlobData.modalClose=mclose;
-            	$('#'+name).modal({ show: true, backdrop: 'static', keyboard: false});  
+            	$('#'+name).modal({ show: true, backdrop: 'static', keyboard: false}); 
+            	
             }
             function logService(type,data,data1){
          	   if(type==0){type="info: ";}

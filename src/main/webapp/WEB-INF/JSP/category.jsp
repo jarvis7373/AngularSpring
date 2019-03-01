@@ -74,26 +74,46 @@
 </div>
 <!--Modal: modalConfirmDelete-->
 
-<form  ng-submit="ctrl.submit()" name="dataForm" id="dataForm"  class="form-horizontal">   
+<form  ng-submit="ctrl.submit()" name="dataForm" id="dataForm" >   
 
-  <modal  name="globData.modalName" header="globData.modalHeader" modal-class="globData.modalClass" 
-	 	  header-class="globData.headerClass" header-title="globData.modalTitle" body="globData.modalBody" close-btn="globData.modalClose">
+  <modal  name="ctrlData.modalName"  modal-class="ctrlData.modalClass" 
+	 	  header-class="ctrlData.modalHeaderClass" header-title="ctrlData.modalTitle" body="ctrlData.modalBody" close-btn="ctrlData.modalClose1">
+	 	
+	 	  <div ng-include="getTemplate(item)"></div>
   </modal>
   
 </form>
 
-	<div id="formContent" ng-hide="true">	  
-	     <div class="panel-body">
+	<script type="text/ng-template" id="test.html">
+	       <div class="panel-body">
 	                 <div class="row">
 	                 	<div class="col-md-3"></div>
 	                    <div class="col-md-6">                       
 	                      <label for="categoryname">Category Name</label>
-							<input type="text" ng-model="ctrl.data.categoryName" id="categoryName" class="form-control">
+							<input type="text" data-ng-model="ctrl.data.categoryName" id="categoryName" class="form-control">
 	                    </div> 
 	                    <div class="col-md-3"></div>                   
 	                 </div>  
 	                 <div class="row" style="float:right" >
 			      	  <button ng-disabled="dataForm.$invalid || dataForm.$pristine" type="submit" class="btn btn-primary btn-sm" >SUBMIT</button>
-			      	  <button ng-show="globData.modalState==0" ng-disabled="dataForm.$pristine" ng-click="ctrl.reset()" type="button" class="btn btn-warning btn-sm">RESET</button>
+			      	  <button ng-show="ctrlData.modalState==0" ng-disabled="dataForm.$pristine" ng-click="ctrl.reset()" type="button" class="btn btn-warning btn-sm">RESET</button>
 			       </div>
-	           </div>	</div>
+	           </div>  
+	 	
+	</script>
+	
+		<script type="text/ng-template" id="test1.html">
+	        <!--Body-->
+      <div class="modal-body">
+
+        <i class="fas fa-times fa-4x animated rotateIn"></i>
+
+      </div>
+
+      <!--Footer-->
+      <div class="modal-footer flex-center">
+        <button data-ng-click="ctrl.remove(ctrlData.removeId)" href="" class="btn  btn-outline-danger">Yes</button>
+        <button type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</button>
+      </div>
+	 	
+	</script>
