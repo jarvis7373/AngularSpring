@@ -4,8 +4,8 @@ app.factory('GlobData', function() {
 	return {};
 });
 
-app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData',
-        function ($localStorage, $http, $q, urls, GlobData) {
+app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData','$sce',
+        function ($localStorage, $http, $q, urls, GlobData,$sce) {
 
             var factory = {
                 loadSerData: loadSerData,
@@ -14,11 +14,22 @@ app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData',
                 postService: postService,
                 putService : putService,
                 removeService : removeService,
-                logService : logService
+                logService : logService,
+                modalService : modalService
             };
          
             return factory;
             
+            function modalService(name,mclass,mhclass,mtitle,mbody,mclose){
+            	
+            	GlobData.modalName=name;
+            	GlobData.modalClass=mclass;
+            	GlobData.modalHeaderClass=mhclass;
+            	GlobData.modalTitle=mtitle;
+            	GlobData.modalBody= $sce.trustAsHtml(mbody);
+            	GlobData.modalClose=mclose;
+            	$('#'+name).modal({ show: true, backdrop: 'static', keyboard: false});  
+            }
             function logService(type,data,data1){
          	   if(type==0){type="info: ";}
          	   if(type==1){type="err: ";}

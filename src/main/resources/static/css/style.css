@@ -7,8 +7,6 @@ body, .form-control{
 	font-size:12px!important;
 }
 select {
-  color: #000 !important;
-  color: rgba(0,0,0,0) !important;
   text-shadow: 0 0 0 #000 !important;
 }
 .page-header{	

@@ -75,12 +75,14 @@
  	 	<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/lib/mdb.min.js"></script>
         <script type="text/javascript" src="js/lib/angular.min.js" ></script>
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-sanitize.js"></script>
         <script type="text/javascript" src="js/lib/angular-ui-router.min.js" ></script>
         <script type="text/javascript" src="js/lib/localforage.min.js" ></script>
         <script type="text/javascript" src="js/lib/ngStorage.min.js"></script>
         <script type="text/javascript" src="js/app/app.js"></script>
-        <script type="text/javascript" src="js/app/Service.js"></script>
-        <script type="text/javascript" src="js/app/Controller.js"></script>
+        <script type="text/javascript" src="js/app/directives.js"></script>
+        <script type="text/javascript" src="js/app/service.js"></script>
+        <script type="text/javascript" src="js/app/controller.js"></script>
         <script type="text/javascript" src="js/app/script.js"></script>
     </body>
 </html>

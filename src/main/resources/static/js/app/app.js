@@ -1,4 +1,4 @@
-var app = angular.module('adminApp',['ui.router','ngStorage']);
+var app = angular.module('adminApp',['ui.router','ngStorage','ngSanitize']);
 
 app.constant('urls', {
     BASE: 'http://localhost:8081/',
