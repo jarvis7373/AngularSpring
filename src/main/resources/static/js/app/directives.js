@@ -32,7 +32,7 @@ app.directive('modal', function () {
             modalClass: '=modalClass',
             headerClass: '=headerClass',
             headerTitle:'=headerTitle',
-            body:'=body',
+            //body:'=body',
             closeBtn:'=closeBtn'
            
         },
@@ -41,6 +41,7 @@ app.directive('modal', function () {
 		          '<div class="modal-content">'+
 			          '<div class="modal-header" ng-class="headerClass" >'+
 			          	'<h5 class="modal-title w-100 font-weight-bold" id="myModalLabel">{{headerTitle}}</h5>'+
+			          	//'<p class="heading w-100 font-weight-bold">{{headerTitle}}</p>'+
 			          	'<button ng-if="closeBtn" type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+
 			          '</div>'+
 			          '<div  class="modal-body"  ng-transclude ></div>'+
@@ -50,8 +51,6 @@ app.directive('modal', function () {
 	    transclude: true,
         controller: function ($scope) {
         	$scope.name='modal';
-        	
-        	console.log($scope.headerClass);
         }
     };
 });

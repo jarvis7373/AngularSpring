@@ -154,5 +154,26 @@ public class ApiController {
 	        
 	     return new ResponseEntity<Item>(currentItem, HttpStatus.OK);
 	}
+	
+	@RequestMapping(value="/removeitem/{id}" , method = RequestMethod.DELETE)
+	public ResponseEntity<?> removeItem(@PathVariable("id") int id) {
+		
+		 logger.info("Updating Item with id {}", id);		 
+		 Item currentItem = itemServicePri.findByitemId(id);
+		 
+	     if (currentItem == null) {
+	          logger.error("Unable to update. Item with id {} not found.", id);
+	          return new ResponseEntity(new CustomErrorType("Unable to update. Item with id " + id + " not found."),HttpStatus.NOT_FOUND);
+	     }
+	 	     
+	     currentItem.setFlagStatus(2);		
+	     currentItem.setSendFlag(0);		
+	     currentItem.setModifiedUsercode(1);
+		 
+	     itemServicePri.updateItem(currentItem);
+	     if(GlobalVariables.cloudFlag) { itemServiceSec.updateItem(currentItem);	}
+	        
+	     return new ResponseEntity<Item>(currentItem, HttpStatus.OK);
+	}
 		
 }

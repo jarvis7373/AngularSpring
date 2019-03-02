@@ -7,7 +7,9 @@
   		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
   		<link href="css/bootstrap.min.css" rel="stylesheet">
   		<link href="css/mdb.min.css" rel="stylesheet">
+  		<link href="css/datatables.min.css" rel="stylesheet">
  		<link href="css/style.css" rel="stylesheet">
+ 		
 </head>
 <body ng-cloak data-ng-controller="homeController as ctrl" >
   
@@ -62,20 +64,31 @@
   </div>
 </nav>
 
+<div style="height:88vh;">  
 <div ui-view></div>
+</div>
+
   		
 <footer class="page-footer font-small blue">
 		  <div class="footer-copyright text-center py-1 green darken-2 page-footer">© 2019 Copyright:
 		    <a href="#"> Paceautomation.com</a>
 		  </div>
-</footer>  	
-			        
+</footer> 
+<script type="text/ng-template" id="confirm">
+      <div class="modal-body text-center">
+        <i class="fas fa-times fa-4x animated rotateIn"></i>
+      </div>
+      <div class="modal-footer flex-center">
+        <button data-ng-click="ctrl.remove(globData.confirmData)" href="" class="btn  btn-outline-danger">Yes</button>
+        <button type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</button>
+      </div>
+</script> 	
         <script type="text/javascript" src="js/lib/jquery-3.3.1.min.js"></script>
  		<script type="text/javascript" src="js/lib/popper.min.js"></script>
  	 	<script type="text/javascript" src="js/lib/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/lib/mdb.min.js"></script>
+        <script type="text/javascript" src="js/lib/datatables.min.js"></script>
         <script type="text/javascript" src="js/lib/angular.min.js" ></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.8/angular-sanitize.js"></script>
         <script type="text/javascript" src="js/lib/angular-ui-router.min.js" ></script>
         <script type="text/javascript" src="js/lib/localforage.min.js" ></script>
         <script type="text/javascript" src="js/lib/ngStorage.min.js"></script>

@@ -1,4 +1,4 @@
-var app = angular.module('adminApp',['ui.router','ngStorage','ngSanitize']);
+var app = angular.module('adminApp',['ui.router','ngStorage']);
 
 app.constant('urls', {
     BASE: 'http://localhost:8081/',
@@ -39,6 +39,7 @@ app.config(['$stateProvider', '$urlRouterProvider',function($stateProvider, $url
 		        var deferred = $q.defer();
 		        Service.loadSerData('categorylist').then(deferred.resolve, deferred.resolve);
 		        Service.loadSerData('itemlist').then(deferred.resolve, deferred.resolve);
+		        
 		        return deferred.promise;
 			}
 	    }

@@ -4,8 +4,8 @@ app.factory('GlobData', function() {
 	return {};
 });
 
-app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData','$sce',
-        function ($localStorage, $http, $q, urls, GlobData,$sce) {
+app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData',
+        function ($localStorage, $http, $q, urls, GlobData) {
 
             var factory = {
                 loadSerData: loadSerData,
@@ -15,21 +15,36 @@ app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData','$sce'
                 putService : putService,
                 removeService : removeService,
                 logService : logService,
-                modalService : modalService
+                modalService : modalService,
+                confirmService:confirmService
             };
          
             return factory;
             
-            function modalService(name,mstate,mclass,mhclass,mtitle,mbody,mclose){
+            function modalService(murl,name,mstate,mclass,mhclass,mtitle,mclose){
             	
+               	GlobData.modalUrl= murl;
             	GlobData.modalName=name;
             	GlobData.modalState=mstate;
             	GlobData.modalClass=mclass;
             	GlobData.modalHeaderClass=mhclass;
             	GlobData.modalTitle=mtitle;
-            	GlobData.modalBody= $sce.trustAsHtml(mbody);
             	GlobData.modalClose=mclose;
-            	$('#'+name).modal({ show: true, backdrop: 'static', keyboard: false}); 
+            	$('#'+GlobData.modalName).modal({ show: true, backdrop: 'static', keyboard: false}); 
+            	
+            }
+            function confirmService(confirmdata){
+            	
+               	GlobData.modalUrl= 'confirm';
+            	GlobData.modalName='modal';
+            	GlobData.modalState='2';
+            	GlobData.modalClass='modal-sm modal-notify modal-danger';
+            	GlobData.modalHeaderClass='d-flex justify-content-center text-center text-white';
+            	GlobData.modalTitle='Are you sure?';
+            	GlobData.modalClose=false;
+            	GlobData.confirmData=confirmdata;
+            	
+            	$('#'+GlobData.modalName).modal({ show: true, backdrop: 'static', keyboard: false}); 
             	
             }
             function logService(type,data,data1){
