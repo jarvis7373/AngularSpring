@@ -35,21 +35,26 @@ app.controller('categoryController',[ 'Service','GlobData','$scope', function( S
 	var ctrlName="category";
 	scope.globData=GlobData;
 	scope.ctrlData={};
-	
-     //alert(angular.element(formContent).html());
-	//$sce.trustAsHtml(angular.element(formContent).html());
-	
-	   $(document).ready(function () {
-		   
-	       	$('#datatable').DataTable({
-	       	  scrollY:"50vh",
-	          scrollCollapse: true,
-	          sScrollX: "100%", 
-	          sScrollXInner: "100%", 
-	          bScrollCollapse: true
-	       	});
-	       	
-	     });
+
+    scope.dataTableOptions = {
+        columns: [
+            { title: "S NO" },
+            { title: "CATEGORY NAME" },
+            { title: "EDIT" },
+            { title: "DELETE" }
+        ],
+        columnMap: function (p,i) { 
+        	
+            return [  i+1, p.categoryName, 
+            	'<button data-ng-click="ctrl.editModal('+p.categoryId+')" type="button" class="btn btn-sm btn-warning p-1 m-0"><i class="fas fa-pen"></i></button>',
+            	'<button data-ng-click="ctrl.confirmModal('+p.categoryId+')" type="button" class="btn btn-sm btn-danger p-1 m-0"><i class="fas fa-trash-alt"></i></button>' ]
+        },
+        scrollY:"40vh",
+        scrollCollapse: true,
+        sScrollX: "100%", 
+        sScrollXInner: "100%", 
+        bScrollCollapse: true
+    };
 
 	self.data = {};
 	self.submit = submit;
@@ -62,7 +67,7 @@ app.controller('categoryController',[ 'Service','GlobData','$scope', function( S
 	self.editModal=editModal;
 	self.closeModal=closeModal;
 	self.confirmModal=confirmModal;
-
+	
 	function log(type,data,data1){
 		Service.logService(type,data,data1);
 	}
@@ -94,6 +99,8 @@ app.controller('categoryController',[ 'Service','GlobData','$scope', function( S
 		)		
 	}
 	function update(data){		
+		
+		scope.dataTableOptions.scrollY="10vh";
 		Service.putService('update'+ctrlName+'/'+data.categoryId,data,ctrlName+'list').then(
 			function(response){
 				log(0,ctrlName+' Updated successfully');

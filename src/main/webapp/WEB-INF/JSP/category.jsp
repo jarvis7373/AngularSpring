@@ -16,39 +16,17 @@
   <div class="card-body p-1">
   
     <div class="panel panel-default">
-     
         <div class="panel-body">
-                <table class="table table-sm" id="datatable" >
-                    <thead>
-                    <tr class="green lighten-1">
-                        <th class="text-left font-weight-bold">S NO</th>
-                         <th class="text-left font-weight-bold">CATEGORY NAME</th> 
-                         <th class="text-center font-weight-bold">EDIT</th>
-                        <th class="text-center font-weight-bold">DELETE</th>                                          
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr data-ng-repeat="u in ctrl.getLocData('categorylist')">
-                        <td class="text-left">{{$index+1}}</td>
-                        <td class="text-left">{{u.categoryName}}</td>  
-                        <td class="text-center" > <button data-ng-click="ctrl.editModal(u.categoryId)" type="button" class="btn btn-sm btn-warning p-1 m-0"><i class="fas fa-pen"></i></button> </td>
-                        <td class="text-center" > <button data-ng-click="ctrl.confirmModal(u.categoryId)" type="button" class="btn btn-sm btn-danger p-1 m-0"><i class="fas fa-trash-alt"></i></button></td>    
-                    </tr>
-                    </tbody>
-                </table>      
+                <table class="table table-sm" compile  datatable options="dataTableOptions" tabledata="ctrl.getLocData('categorylist')"></table>
         </div>
     </div>
-    
+  </div>
 </div>
-</div>
-
 
 <form  ng-submit="ctrl.submit()" name="dataForm" id="dataForm" > 
   <modal  name="globData.modalName"  modal-class="globData.modalClass" 
 	 	  header-class="globData.modalHeaderClass" header-title="globData.modalTitle" body="globData.modalBody" close-btn="globData.modalClose">
-	 	 
 	 	  <div ng-include="globData.modalUrl"></div>
-	
   </modal>
  </form> 
 

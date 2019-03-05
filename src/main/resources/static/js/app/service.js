@@ -51,7 +51,7 @@ app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData',
          	   if(type==0){type="info: ";}
          	   if(type==1){type="err: ";}
          	   if(typeof(data1)=='undefined'){data1="";}
-         	   console.log(type,data,data1);
+         	//   console.log(type,data,data1);
             } 
          
             function loadSerData(url) {

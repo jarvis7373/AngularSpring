@@ -1,18 +1,4 @@
-/*app.directive('compile', function($compile, $parse){
-    return {
-        link: function(scope, element, attr){
-            var parsed = $parse(attr.ngBindHtml);
-            function getStringValue() {
-                return (parsed(scope) || '').toString();
-            }
 
-            // Recompile if the template changes
-            scope.$watch(getStringValue, function() {
-                $compile(element, null, -9999)(scope);  // The -9999 makes it skip directives so that we do not recompile ourselves
-            });
-        }
-    }
-});
 app.directive('compile',function($compile, $timeout){
     return{
         restrict:'A',
@@ -22,7 +8,8 @@ app.directive('compile',function($compile, $timeout){
             });
         }        
     };
-});*/
+});
+
 app.directive('modal', function () {
     return {
         restrict: 'EA',
@@ -54,3 +41,27 @@ app.directive('modal', function () {
         }
     };
 });
+
+app.directive('datatable', function () {
+    return {
+        restrict: 'E, A, C',
+        link: function (scope, element, attrs, controller) {
+
+           var dataTable = element.dataTable(scope.options); //init plugin
+           var mapToDatatableFormat = function (data) {
+            	return data.map(scope.options.columnMap)
+            }
+            scope.$watch('tabledata', function (newData) {
+                if (newData) {
+                    dataTable.fnClearTable();
+                    dataTable.fnAddData( mapToDatatableFormat(newData) )
+                }
+            }, true);
+            
+        },
+        scope: { options: "=", tabledata: "=" }
+        
+    };
+});
+
+
