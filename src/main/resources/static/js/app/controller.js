@@ -29,13 +29,18 @@ app.controller('homeController',[ 'Service','GlobData','$scope', function(Servic
 	
 }]);
 
-app.controller('categoryController',[ 'Service','GlobData','$scope', function( Service, GlobData, scope ) {
+app.controller('categoryController',[ 'Service','GlobData','$scope','$compile', function( Service, GlobData, scope ,$compile ) {
 	
 	var self = this;
 	var ctrlName="category";
 	scope.globData=GlobData;
 	scope.ctrlData={};
 
+	var tableVH="30vh";
+	var viWidth=$(window).width();
+	
+	if(viWidth<600){  tableVH="20vh";  }else{  tableVH="40vh"; }
+	
     scope.dataTableOptions = {
         columns: [
             { title: "S NO" },
@@ -44,16 +49,26 @@ app.controller('categoryController',[ 'Service','GlobData','$scope', function( S
             { title: "DELETE" }
         ],
         columnMap: function (p,i) { 
-        	
             return [  i+1, p.categoryName, 
             	'<button data-ng-click="ctrl.editModal('+p.categoryId+')" type="button" class="btn btn-sm btn-warning p-1 m-0"><i class="fas fa-pen"></i></button>',
             	'<button data-ng-click="ctrl.confirmModal('+p.categoryId+')" type="button" class="btn btn-sm btn-danger p-1 m-0"><i class="fas fa-trash-alt"></i></button>' ]
         },
-        scrollY:"40vh",
+        order: [[ 0, "asc" ]],
+        columnDefs: [
+        	  { targets: 2 , orderable: false },
+        	  { targets: 3 , orderable: false }
+        	],
+        scrollY:tableVH,
         scrollCollapse: true,
         sScrollX: "100%", 
         sScrollXInner: "100%", 
-        bScrollCollapse: true
+        bScrollCollapse: true,
+       	rowCallback: function(row) {  
+		    if (!row.compiled) {
+		      $compile(angular.element(row))(scope);
+		      row.compiled = true;  
+		    }  
+		  }
     };
 
 	self.data = {};

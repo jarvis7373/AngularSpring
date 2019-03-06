@@ -64,4 +64,126 @@ app.directive('datatable', function () {
     };
 });
 
+app.directive('formInvalidFocus', function () {
+    return {
+        restrict: 'A',
+        link: function (scope, elem) {
+            elem.on('submit', function () {
+                var firstInvalid = elem[0].querySelector('.ng-invalid');
+                if (firstInvalid) {  firstInvalid.focus();}
+            });
+        }
+    };
+});
+
+app.directive('validNumber', function() {
+    return {
+      require: '?ngModel',
+      link: function(scope, element, attrs, ngModelCtrl) {
+        if(!ngModelCtrl) { return; }
+
+        ngModelCtrl.$parsers.push(function(val) {
+          if (angular.isUndefined(val)) {var val = '';}
+
+          var clean = val.replace(/[^-0-9]/g, '');clean=clean.replace(/-/g,'');
+          
+          if (val !== clean) {ngModelCtrl.$setViewValue(clean); ngModelCtrl.$render();}
+          return clean;
+          
+        });
+
+        element.bind('keypress', function(event) {
+          if(event.keyCode === 32) {
+            event.preventDefault();
+          }
+        });
+      }
+    };
+  });
+
+app.directive('validDecimal', function() {
+    return {
+      require: '?ngModel',
+      scope:{ limit: '@?validDecimal', },
+      controller: function($scope){
+    	  $scope.afterDecimal=2;
+      },
+      link: function(scope, element, attrs, ngModelCtrl) {
+    	  
+    	  var lenArr=scope.limit.split(',');var beforeDecimal=lenArr[0];  var afterDecimal=lenArr[1];
+
+    	  if(!ngModelCtrl) { return; }
+
+        ngModelCtrl.$parsers.push(function(val) {
+          if (angular.isUndefined(val)) {var val = '';}
+
+          var clean = val.replace(/[^-0-9.]/g, '');clean=clean.replace(/-/g,'');
+          if(clean.split('.').length>2)  { clean =clean.replace(/\.+$/,""); }
+          var arr=clean.split('.');
+          if(arr.length==2){  
+        	  if(arr[0].length > beforeDecimal){ arr[0]=arr[0].slice(0,beforeDecimal); clean=arr[0]+'.'+arr[1] }
+        	  if(arr[1].length > afterDecimal){ arr[1]=arr[1].slice(0,afterDecimal); clean=arr[0]+'.'+arr[1] }
+          }else { clean=clean.slice(0,beforeDecimal);   }
+
+          if (val !== clean) {ngModelCtrl.$setViewValue(clean); ngModelCtrl.$render();}
+          
+          return clean;
+          
+        });
+
+		element.bind('keypress', function(event) { var kv = event.which || event.keyCode; if (kv === 32) { event.preventDefault();} });
+		
+      }
+    };
+  });
+
+app.directive('limitLength', function() {
+    'use strict';
+    return {
+        restrict: 'A',
+        scope: {
+            limit: '@limitLength',
+            ngModel: '=ngModel'
+        },
+        link: function(scope) {
+            scope.$watch('ngModel', function(newValue, oldValue) {
+                if (newValue) {
+                    var length = newValue.toString().length;
+                    if (length > scope.limit) { scope.ngModel = oldValue;}
+                }
+            });
+        }
+    };
+});
+
+app.directive('noSpace', function() {
+    return {
+        restrict: 'A',
+        link: function($scope, $element) {
+        	$element.bind('keypress', function(event) { var kv = event.which || event.keyCode; if (kv === 32) { event.preventDefault();} });
+        }
+    }
+});
+
+app.directive('validLetter', function() {
+	return {
+		require : '?ngModel',
+		link : function(scope, element, attrs, ngModelCtrl) {
+			if (!ngModelCtrl) { return;}
+
+			ngModelCtrl.$parsers.push(function(text) {
+				if (angular.isUndefined(text)) { var text = '';}
+				
+			   var transformedInput = text.replace(/[^a-zA-Z ]/g, '');
+			   
+			            if (transformedInput !== text) {
+			              ngModelCtrl.$setViewValue(transformedInput);
+			              ngModelCtrl.$render();
+			            }
+			            return transformedInput;
+			});
+		}
+	};
+});
+
 

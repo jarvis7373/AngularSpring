@@ -17,7 +17,7 @@
   
     <div class="panel panel-default">
         <div class="panel-body">
-                <table class="table table-sm" compile  datatable options="dataTableOptions" tabledata="ctrl.getLocData('categorylist')"></table>
+                <table class="table table-sm"   datatable options="dataTableOptions" tabledata="ctrl.getLocData('categorylist')"></table>
         </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
 	                 	<div class="col-md-3"></div>
 	                    <div class="col-md-6">                       
 	                      <label for="categoryname">Category Name</label>
-							<input type="text" data-ng-model="ctrl.data.categoryName" id="categoryName" class="form-control">
+							<input valid-letter no-space data-ng-model="ctrl.data.categoryName" type="text" id="categoryName" class="form-control">
 	                    </div> 
 	                    <div class="col-md-3"></div>                   
 	                 </div>  
