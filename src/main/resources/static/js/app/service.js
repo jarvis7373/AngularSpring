@@ -1,8 +1,27 @@
 'use strict';
 
 app.factory('GlobData', function() {  
-	return {};
+	return {username:"root",password:"root"};
 });
+
+
+app.factory('AuthInterceptor', ['GlobData',function(data) {  
+    return {
+    // Send the Authorization header with each request
+        'request': function(config) {
+            config.headers = config.headers || {};
+            var encodedString = btoa(data.username+':'+data.password);
+            config.headers.Authorization = 'Basic '+encodedString;
+            //console.log(config);
+           return config;
+        }
+    };
+}]);
+
+app.config(['$httpProvider', function($httpProvider) {
+	  $httpProvider.interceptors.push('AuthInterceptor');
+	}]);
+
 
 app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData',
         function ($localStorage, $http, $q, urls, GlobData) {
@@ -51,7 +70,7 @@ app.factory('Service',['$localStorage', '$http', '$q', 'urls', 'GlobData',
          	   if(type==0){type="info: ";}
          	   if(type==1){type="err: ";}
          	   if(typeof(data1)=='undefined'){data1="";}
-         	//   console.log(type,data,data1);
+         	  // console.log(type,data,data1);
             } 
          
             function loadSerData(url) {

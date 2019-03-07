@@ -1,3 +1,4 @@
+
 var app = angular.module('adminApp',['ui.router','ngStorage']);
 
 app.constant('urls', {

@@ -15,7 +15,7 @@ public class ExceptionHandler implements ErrorController {
     	
     	error.addAttribute("title","error");
     	
-        return "error";
+        return "error1";
     }
 
     @Override
