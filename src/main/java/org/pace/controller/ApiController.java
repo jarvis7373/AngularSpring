@@ -25,6 +25,25 @@ import org.pace.custom.CustomErrorType;
 public class ApiController {
 	
 	public static final Logger logger = LoggerFactory.getLogger(ApiController.class);
+	
+	
+	
+	
+	@Autowired
+	UserInfoServicePri userInfoServicePri;
+	
+	
+	@RequestMapping(value="/userlist" , method = RequestMethod.GET )
+	public List<UserInfo>  userlist() {
+		
+		return userInfoServicePri.findAllUserInfo();
+	}
+	
+	@RequestMapping(value="/userlist/{username}" , method = RequestMethod.GET )
+	public UserInfo  userlist(@PathVariable("username") String username) {
+		
+		return userInfoServicePri.findByuserName(username);
+	}
 	 	
 	@Autowired
 	CategoryServicePri categoryServicePri;
@@ -175,5 +194,9 @@ public class ApiController {
 	        
 	     return new ResponseEntity<Item>(currentItem, HttpStatus.OK);
 	}
+	
+
+	
+
 		
 }
